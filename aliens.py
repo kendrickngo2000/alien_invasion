@@ -2,6 +2,7 @@ import pygame as pg
 from pygame.sprite import Sprite
 from vector import Vector 
 from random import randint
+from timer import Timer
 
 
 class Alien(Sprite):
@@ -18,6 +19,7 @@ class Alien(Sprite):
     self.screen = game.screen
     self.screen_rect = self.screen.get_rect()
     self.settings = game.settings
+    self.timer = Timer(Alien.images, start_index=randint(0, len(Alien.images) - 1), delta=20)
 
     self.image = Alien.images[row % len(Alien.names)]
     # self.image = Alien.images[randint(0, 5)]
@@ -42,7 +44,8 @@ class Alien(Sprite):
     self.rect.y += delta_y
     self.draw()
 
-  def draw(self): 
+  def draw(self):
+    self.image = self.timer.current_image() 
     self.screen.blit(self.image, self.rect)
 
 
@@ -53,6 +56,7 @@ class Aliens():
     self.settings = game.settings 
     self.v = Vector(self.settings.alien_speed, 0)
     self.alien_group = pg.sprite.Group()
+    # self.alien_laser_group = pg.Sprite.Group()  # implement this for "space invaders" -- where aliens shoot back
     self.laser_group = game.lasers.laser_group
     self.ship = game.ship
     self.create_fleet()

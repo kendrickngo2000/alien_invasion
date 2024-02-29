@@ -1,5 +1,5 @@
 class Timer: 
-  def __init__(self, image_list, start_index=0, delta=6): 
+  def __init__(self, image_list, start_index=0, delta=6, looponce=True): 
     self.image_list = image_list
     self.delta = delta
     self.index = start_index
@@ -10,8 +10,11 @@ class Timer:
     if self.time >= self.delta:
       self.index += 1
       self.time = 0
-      if self.index >= len(self.image_list):
+      if self.index >= len(self.image_list) and not self.looponce:
         self.index = 0
+  
+  def finished(self):
+    return self.looponce and self.index >- len(self.image_list)
 
   def current_image(self):     # self.time = 0
     self.update_index()

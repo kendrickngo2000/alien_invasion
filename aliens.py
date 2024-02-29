@@ -7,6 +7,7 @@ from timer import Timer
 
 class Alien(Sprite):
   names = ['bunny', 'pig', 'stalk_eyes', 'w_heart', 'w_pigtails', 'wild_tentacles']
+  points = [10, 125, 300, 35, 100, 600]
   images = [pg.image.load(f'images/alien_{name}.png') for name in names] 
   # nameslen = len(names)
   # choices = [randint(0, nameslen) for _ in range(nameslen)]
@@ -19,8 +20,10 @@ class Alien(Sprite):
     self.screen = game.screen
     self.screen_rect = self.screen.get_rect()
     self.settings = game.settings
-    self.timer = Timer(Alien.images, start_index=randint(0, len(Alien.images) - 1), delta=20)
-
+    
+    self.regular_timer = Timer(Alien.images, start_index=randint(0, len(Alien.images) - 1), delta=20)
+    # self.explosionTimer = Timer(Alien.explosionImages, delta=20, looponce=True) # TODO: explosion timer
+    
     self.image = Alien.images[row % len(Alien.names)]
     # self.image = Alien.images[randint(0, 5)]
     # self.image = Alien.images[Alien.choices[row % len(Alien.names)]]
@@ -45,7 +48,7 @@ class Alien(Sprite):
     self.draw()
 
   def draw(self):
-    self.image = self.timer.current_image() 
+    # self.image = self.timer.current_image() 
     self.screen.blit(self.image, self.rect)
 
 

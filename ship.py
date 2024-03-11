@@ -1,6 +1,7 @@
 import pygame as pg
 from vector import Vector 
 from time import sleep
+import sys
 
 
 class Ship:
@@ -46,14 +47,16 @@ class Ship:
 
   def hit(self): 
     self.stats.ships_left -= 1
-    print(f'only {self.stats.ships_left} ships left now')
-    if self.stats.ships_left <= 0: 
-      self.game.active = False
-      print("Game over !")
-      return
+    print(f'only {self.stats.ships_left} ships left')
     
-    self.lasers.empty()
-    self.aliens.empty()
+    if self.stats.ships_left == 0:
+      print("Game over !")
+      # self.game.game_over() # calling game over 
+      self.game.active = False
+      # pg.quit()
+    
+    self.lasers.laser_group.empty()
+    self.aliens.alien_group.empty()
     self.aliens.create_fleet()
     self.center_ship()
     sleep(0.5)

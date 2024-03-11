@@ -99,7 +99,8 @@ class Aliens():
       delta_y = self.settings.fleet_drop
       self.v.x *= -1
       
-    if self.check_bottom(): self.ship.hit()
+    if self.check_bottom() and self.game.game_active: 
+      self.ship.hit()
     
     collisions = pg.sprite.groupcollide(self.laser_group, self.alien_group, True, True)
     for alien in self.alien_group.sprites():

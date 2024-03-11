@@ -52,14 +52,15 @@ class Ship:
     if self.stats.ships_left == 0:
       print("Game over !")
       # self.game.game_over() # calling game over 
-      self.game.active = False
+      self.game.game_active = False
+      sleep(2) 
       # pg.quit()
-    
-    self.lasers.laser_group.empty()
-    self.aliens.alien_group.empty()
-    self.aliens.create_fleet()
-    self.center_ship()
-    sleep(0.5)
+    else:
+      self.lasers.laser_group.empty()
+      self.aliens.alien_group.empty()
+      self.aliens.create_fleet()
+      self.center_ship()
+      sleep(0.5)
 
   def center_ship(self):
     self.rect.midbottom = self.screen_rect.midbottom

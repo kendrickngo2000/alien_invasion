@@ -21,6 +21,7 @@ class Game:
     self.screen = pg.display.set_mode(
       (self.settings.screen_width, self.settings.screen_height))
     pg.display.set_caption("Alien Invasion")
+    self.launch_screen = LaunchScreen()
     
     self.stats = GameStats(game=self)
     self.lasers = Lasers(game=self)    # MUST be before the Ship object is created!
@@ -57,8 +58,23 @@ class Game:
         self.aliens.update()   # when we have aliens
         self.lasers.update()   
       
+        # check for game over condition
+        if self.stats.ships_left == 0:
+           print("Game over! Returning to launch screen")
+           self.game_active = False
+           self.launch_screen.run()
+           self.reset_game()
+      
       pg.display.flip()
       time.sleep(0.02)
+  
+  def reset_game(self):
+     self.stats.reset_stats()
+     self.lasers.laser_group.empty()
+     self.aliens.alien_group.empty()
+     self.aliens.create_fleet()
+     self.ship.center_ship()
+     self.game_active = True
 
 class LaunchScreen:
     def __init__(self):
@@ -87,6 +103,8 @@ class LaunchScreen:
                 if self.start_button.collidepoint(mouse_pos):
                     self.game_active = True
                     self.game = Game()
+
+                    self.game.game_active = False
     
     def run(self):
        while not self.game_active:
@@ -95,33 +113,22 @@ class LaunchScreen:
           pg.display.flip()
           time.sleep(0.02)
     
-    def game_over(self):
-       font = pg.font.Font(None, 36)
-       text = font.render("Game Over", True, (255, 255, 255))
-       text_rect = text.get_rect(center=(self.settings.screen_width/2, self.settings.screen_height/2))
-       self.screen.blit(text, text_rect)
-       pg.display.flip()
-       time.sleep(2)
-
-
-# if __name__ == '__main__':
-#   ls = LaunchScreen()
-#   # ls.run()
-#   ai = Game()
-#   ai.play()
 
 if __name__ == '__main__':
-  ls = LaunchScreen()
-  ls.run()
-  ai = Game()
-  
-  while True:
-    if ai.game_active:
-      ai.play()
-    else:
-      print("Game over! Returning to launch screen...")
-      ls.run()
-      gameOver = game_over()
-      ai = Game()  # Create a new game instance after the launch screen
+    ls = LaunchScreen()
+    ls.run()
+    ai = Game()
 
+    while True:
+        if ai.game_active:
+            ai.play()
+        else:
+            print("Game over! Returning to the launch screen...")
+            ai.reset_game()  # Reset the existing game instance
 
+            # Ensure that the ship and aliens are properly reset
+            ai.ship.center_ship()
+            ai.aliens.create_fleet()
+
+            # Break out of the loop to avoid an infinite loop
+            break

@@ -19,3 +19,18 @@ class Timer:
   def current_image(self):     # self.time = 0
     self.update_index()
     return self.image_list[self.index]
+  
+
+  # def TimerDict(Timer): 
+  #   def __init__(self, dictionary, start_key, delta=6, loop_once=False): pass
+    
+  #   super().__init__(...)
+
+  #   def has_name(self, name): pass
+  #   def keys(self): pass
+  #   def switch_to(self, key): pass
+
+  #   def update_index(self): pass
+  #   def finished(self): pass
+  #   def current_index(self): pass
+  #   def current_image(self): pass

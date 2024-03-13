@@ -20,6 +20,8 @@ class Alien(Sprite):
     self.screen = game.screen
     self.screen_rect = self.screen.get_rect()
     self.settings = game.settings
+    # midterm choice B for explosions
+    # self.points = alien.points
     
     self.regular_timer = Timer(Alien.images, start_index=randint(0, len(Alien.images) - 1), delta=20)
     # self.explosionTimer = Timer(Alien.explosionImages, delta=20, looponce=True) # TODO: explosion timer
